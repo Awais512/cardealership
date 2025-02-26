@@ -14,7 +14,7 @@ model Classified {
     make           Make             @relation(fields: [makeId], references: [id])
     modelId        Int              @map("model_id")
     model          Model            @relation(fields: [modelId], references: [id])
-    modelVariantId Int              @map("model_variant_id")
+    modelVariantId Int?             @map("model_variant_id")
     modelVariant   ModelVariant?    @relation(fields: [modelVariantId], references: [id])
     ulezCompliance ULEZCompliance   @default(EXPERT)
     transmission   Transmission     @default(MANUAL)
@@ -22,7 +22,7 @@ model Classified {
     fuelType       FuelType         @default(PETROL)
     bodyType       BodyType         @default(SEDAN)
     odoUnit        OdoUnit          @default(MILES)
-    currency       Currency         @default(GBP)
+    currency       CurrencyCode     @default(GBP)
     status         ClassifiedStatus @default(DRAFT)
     images         Image[]
     customers      Customer[]
@@ -42,7 +42,7 @@ enum ClassifiedStatus {
     SOLD
 }
 
-enum Currency {
+enum CurrencyCode {
     GBP
     USD
     EUR

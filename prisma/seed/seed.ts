@@ -1,11 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { seedTaxonomy } from "./taxonomy.seed";
+import { seedClassifieds } from "./classifieds.seed";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.$executeRaw`TRUNCATE TABLE "Make" RESTART IDENTITY CASCADE`;
-  await seedTaxonomy();
+  // await prisma.$executeRaw`TRUNCATE TABLE "Make" RESTART IDENTITY CASCADE`;
+  // await seedTaxonomy(prisma);
+
+  await seedClassifieds(prisma);
 }
 
 main()

@@ -13,7 +13,7 @@ type Rows = {
 
 const BATCH_SIZE = 100;
 
-export async function seedTaxonomy() {
+export async function seedTaxonomy(prisma: PrismaClient) {
   const rows = await new Promise<Rows[]>((resolve, reject) => {
     const eachRow: Rows[] = [];
     fs.createReadStream("taxonomy.csv")
