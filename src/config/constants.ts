@@ -1,4 +1,4 @@
 export const imageSources = {
   classifiedPlaceholder:
-    "https://car-dealer-website.s3.eu.amazonaws.com/next-s3-uploads/stock/classified-placeholder.jpeg",
+    "https://res.cloudinary.com/awais512/image/upload/v1740850790/classified-placeholder.jpg",
 };

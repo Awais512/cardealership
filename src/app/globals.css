@@ -1,10 +1,14 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-heading: var(--font-heading), ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, Serif;
+  --font-body: var(--font-body), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segeo UI Emoji", "Segeo UI Symbol", "Noto Color Emoji";
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -53,6 +57,27 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+  :root {
+    --destructive-foreground: 0 0% 100%;
+    --popover-foreground: 210 20% 10%;
+    --primary-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 100%;
+    --muted-foreground: 210 20% 10%;
+    --card-foreground: 210 20% 10%;
+    --destructive: 0 80% 60%;
+    --background: 210 20% 96%;
+    --foreground: 210 20% 10%;
+    --secondary: 40 90% 60%;
+    --popover: 210 10% 86%;
+    --primary: 210 70% 50%;
+    --border: 210 10% 59%;
+    --accent: 0 70% 50%;
+    --muted: 210 10% 86%;
+    --input: 210 10% 63%;
+    --card: 210 20% 96%;
+    --ring: 210 70% 50%;
+    --radius: 0.5rem;
+  }
   *,
   ::after,
   ::before,
@@ -60,11 +85,23 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
 }
 
-@layer base {
+/* @layer base {
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 0 0% 3.9%;
@@ -113,10 +150,9 @@
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
-
     --background: 0 0% 3.9%;
 
     --foreground: 0 0% 98%;
@@ -163,9 +199,9 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
-}
+} */
 
 @layer base {
   * {
