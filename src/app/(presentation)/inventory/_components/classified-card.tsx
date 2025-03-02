@@ -8,6 +8,7 @@ import { Cog, Fuel, GaugeCircle, Paintbrush2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FavouriteButton } from "./favourite-button";
 
 interface Props {
   classified: ClassifiedWithImages;
@@ -131,6 +132,7 @@ export const ClassifiedCard = ({ classified }: Props) => {
             quality={25}
           />
         </Link>
+        <FavouriteButton />
         <div className="absolute top-2.5 right-3.5 bg-primary text-slate-50 font-bold px-2 py-1 rounded">
           <p className="text-xs lg:text-base xl:text-lg font-semibold">
             {classified.price}
