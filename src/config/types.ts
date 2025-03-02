@@ -20,6 +20,10 @@ export type ClassifiedWithImages = Prisma.ClassifiedGetPayload<{
   };
 }>;
 
+export interface Favourites {
+  ids: number[];
+}
+
 export enum MultiStepFormEnum {
   WELCOME = 1,
   SELECT_DATE = 2,
