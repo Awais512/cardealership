@@ -1,3 +1,100 @@
+// model Classified {
+//     id             Int              @id @default(autoincrement())
+//     views          Int              @default(0)
+//     slug           String           @unique
+//     vrm            String?
+//     title          String?
+//     description    String?
+//     year           Int
+//     odoReading     Int              @default(0) @map("odo_reading")
+//     doors          Int              @default(2)
+//     seats          Int              @default(5)
+//     price          Int              @default(0) @map("price")
+//     makeId         Int              @map("make_id")
+//     make           Make             @relation(fields: [makeId], references: [id])
+//     modelId        Int              @map("model_id")
+//     model          Model            @relation(fields: [modelId], references: [id])
+//     modelVariantId Int?             @map("model_variant_id")
+//     modelVariant   ModelVariant?    @relation(fields: [modelVariantId], references: [id])
+//     ulezCompliance ULEZCompliance   @default(EXEMPT)
+//     transmission   Transmission     @default(MANUAL)
+//     colour         Colour           @default(BLACK)
+//     fuelType       FuelType         @default(PETROL)
+//     bodyType       BodyType         @default(SEDAN)
+//     odoUnit        OdoUnit          @default(MILES)
+//     currency       CurrencyCode     @default(GBP)
+//     status         ClassifiedStatus @default(DRAFT)
+//     images         Image[]
+//     customers      Customer[]
+
+//     createdAt DateTime @default(now()) @map("created_at")
+//     updatedAt DateTime @default(now()) @map("updated_at")
+
+//     @@index([makeId, modelId], name: "index_make_model")
+//     @@index([status], name: "index_status")
+//     @@index([price], name: "index_price")
+//     @@map("classifieds")
+// }
+
+// enum ClassifiedStatus {
+//     LIVE
+//     DRAFT
+//     SOLD
+// }
+
+// enum CurrencyCode {
+//     GBP
+//     USD
+//     EUR
+// }
+
+// enum OdoUnit {
+//     MILES
+//     KILOMETERS
+// }
+
+// enum BodyType {
+//     SEDAN
+//     HATCHBACK
+//     SUV
+//     COUPE
+//     CONVERTIBLE
+//     WAGON
+// }
+
+// enum FuelType {
+//     PETROL
+//     DIESEL
+//     ELECTRIC
+//     HYBRID
+// }
+
+// enum Colour {
+//     BLACK
+//     BLUE
+//     BROWN
+//     GOLD
+//     GREEN
+//     GREY
+//     ORANGE
+//     PINK
+//     PURPLE
+//     RED
+//     SILVER
+//     WHITE
+//     YELLOW
+// }
+
+// enum ULEZCompliance {
+//     EXEMPT
+//     NON_EXEMPT
+// }
+
+// enum Transmission {
+//     MANUAL
+//     AUTOMATIC
+// }
+
 model Classified {
     id             Int              @id @default(autoincrement())
     views          Int              @default(0)
@@ -16,9 +113,9 @@ model Classified {
     model          Model            @relation(fields: [modelId], references: [id])
     modelVariantId Int?             @map("model_variant_id")
     modelVariant   ModelVariant?    @relation(fields: [modelVariantId], references: [id])
-    ulezCompliance ULEZCompliance   @default(EXPERT)
+    ulezCompliance ULEZCompliance   @default(EXEMPT)
     transmission   Transmission     @default(MANUAL)
-    color          Color            @default(BLACK)
+    colour         Colour           @default(BLACK)
     fuelType       FuelType         @default(PETROL)
     bodyType       BodyType         @default(SEDAN)
     odoUnit        OdoUnit          @default(MILES)
@@ -26,9 +123,8 @@ model Classified {
     status         ClassifiedStatus @default(DRAFT)
     images         Image[]
     customers      Customer[]
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
+    createdAt      DateTime         @default(now()) @map("created_at")
+    updatedAt      DateTime         @updatedAt @map("updated_at")
 
     @@index([makeId, modelId], name: "index_make_model")
     @@index([status], name: "index_status")
@@ -44,8 +140,8 @@ enum ClassifiedStatus {
 
 enum CurrencyCode {
     GBP
-    USD
     EUR
+    USD
 }
 
 enum OdoUnit {
@@ -69,7 +165,7 @@ enum FuelType {
     HYBRID
 }
 
-enum Color {
+enum Colour {
     BLACK
     BLUE
     BROWN
@@ -86,8 +182,8 @@ enum Color {
 }
 
 enum ULEZCompliance {
-    EXPERT
-    NON_EXPERT
+    EXEMPT
+    NON_EXEMPT
 }
 
 enum Transmission {

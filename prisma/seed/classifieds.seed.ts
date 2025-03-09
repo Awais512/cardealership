@@ -2,16 +2,15 @@ import { faker } from "@faker-js/faker";
 import {
   BodyType,
   ClassifiedStatus,
-  Color,
+  Colour,
   CurrencyCode,
   FuelType,
   OdoUnit,
-  Prisma,
-  PrismaClient,
+  type Prisma,
+  type PrismaClient,
   Transmission,
   ULEZCompliance,
 } from "@prisma/client";
-
 import slugify from "slugify";
 
 export async function seedClassifieds(prisma: PrismaClient) {
@@ -25,19 +24,16 @@ export async function seedClassifieds(prisma: PrismaClient) {
     },
   });
 
-  const classifiedData: Prisma.ClassifiedCreateManyInput[] = [];
+  const classifiedsData: Prisma.ClassifiedCreateManyInput[] = [];
 
   for (let i = 0; i < 25; i++) {
     const make = faker.helpers.arrayElement(makes);
     if (!make.models.length) continue;
-
     const model = faker.helpers.arrayElement(make.models);
 
     const variant = model.modelVariants.length
       ? faker.helpers.arrayElement(model.modelVariants)
       : null;
-
-    console.log({ make, variant, model });
 
     const year = faker.date
       .between({
@@ -54,15 +50,15 @@ export async function seedClassifieds(prisma: PrismaClient) {
 
     const baseSlug = slugify(`${title}-${vrm}`);
 
-    classifiedData.push({
+    classifiedsData.push({
       year,
       vrm,
       slug: baseSlug,
       makeId: make.id,
       modelId: model.id,
       ...(variant?.id && { modelVariantId: variant.id }),
-      title: title,
-      price: faker.number.int({ min: 4000, max: 1000000 }),
+      title,
+      price: faker.number.int({ min: 400000, max: 10000000 }),
       odoReading: faker.number.int({ min: 0, max: 200000 }),
       doors: faker.number.int({ min: 2, max: 8 }),
       seats: faker.number.int({ min: 2, max: 8 }),
@@ -73,16 +69,16 @@ export async function seedClassifieds(prisma: PrismaClient) {
       bodyType: faker.helpers.arrayElement(Object.values(BodyType)),
       transmission: faker.helpers.arrayElement(Object.values(Transmission)),
       fuelType: faker.helpers.arrayElement(Object.values(FuelType)),
-      color: faker.helpers.arrayElement(Object.values(Color)),
+      colour: faker.helpers.arrayElement(Object.values(Colour)),
       ulezCompliance: faker.helpers.arrayElement(Object.values(ULEZCompliance)),
       status: faker.helpers.arrayElement(Object.values(ClassifiedStatus)),
     });
   }
 
   const result = await prisma.classified.createMany({
-    data: classifiedData,
-    skipDuplicates: true,
+    data: classifiedsData,
+    skipDuplicates: true, // prevent any duplicate errors from duplicate slugs
   });
 
-  console.log(`Classified seeded total of ${result.count} classified seeded`);
+  console.log(`Total of ${result.count} classifieds seeded 🌱`);
 }

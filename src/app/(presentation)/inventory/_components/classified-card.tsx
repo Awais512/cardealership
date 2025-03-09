@@ -4,7 +4,6 @@ import { HTMLParser } from "@/components/shared/htnl-parser";
 import { Button } from "@/components/ui/button";
 import { routes } from "@/config/routes";
 import { ClassifiedWithImages, MultiStepFormEnum } from "@/config/types";
-import { Color, FuelType, OdoUnit, Transmission } from "@prisma/client";
 import { Cog, Fuel, GaugeCircle, Paintbrush2 } from "lucide-react";
 
 import Image from "next/image";
@@ -13,86 +12,18 @@ import React, { useEffect, useState } from "react";
 import { FavouriteButton } from "./favourite-button";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  formatColor,
+  formatFuelType,
+  formatNumber,
+  formatOdoUnit,
+  formatPrice,
+  formatTransmission,
+} from "@/lib/utils";
 
 interface Props {
   classified: ClassifiedWithImages;
   favourites: number[];
-}
-
-function formatColor(color: Color) {
-  switch (color) {
-    case Color.BLACK:
-      return "Black";
-
-    case Color.BLUE:
-      return "Blue";
-
-    case Color.BROWN:
-      return "Brown";
-
-    case Color.GOLD:
-      return "Gold";
-
-    case Color.GREEN:
-      return "Green";
-
-    case Color.GREY:
-      return "Grey";
-
-    case Color.ORANGE:
-      return "Orange";
-
-    case Color.PINK:
-      return "Pink";
-
-    case Color.PURPLE:
-      return "Purple";
-
-    case Color.RED:
-      return "Red";
-
-    case Color.SILVER:
-      return "Silver";
-
-    case Color.WHITE:
-      return "White";
-
-    default:
-      return "Unknown";
-  }
-}
-
-function formatFuelType(fuelType: FuelType) {
-  switch (fuelType) {
-    case FuelType.PETROL:
-      return "Petrol";
-
-    case FuelType.DIESEL:
-      return "Diesel";
-
-    case FuelType.ELECTRIC:
-      return "Electric";
-
-    case FuelType.HYBRID:
-      return "Hybrid";
-
-    default:
-      return "Unknown";
-  }
-}
-
-function formatTransmission(transmission: Transmission) {
-  return transmission === Transmission.AUTOMATIC ? "Automatic" : "Manual";
-}
-
-function formatOdoUnit(unit?: OdoUnit) {
-  return unit === OdoUnit.MILES ? "mi" : "km";
-}
-
-function formatNumber(num: number | null, options?: Intl.NumberFormatOptions) {
-  if (!num) return "0";
-
-  return new Intl.NumberFormat("en-gb", options).format(num);
 }
 
 const getKeyClassifiedInfo = (classified: ClassifiedWithImages) => {
@@ -117,7 +48,7 @@ const getKeyClassifiedInfo = (classified: ClassifiedWithImages) => {
     {
       id: "color",
       icon: <Paintbrush2 className="w-4 h-4" />,
-      value: formatColor(classified?.color),
+      value: formatColor(classified?.colour),
     },
   ];
 };
@@ -146,7 +77,7 @@ export const ClassifiedCard = ({ classified, favourites }: Props) => {
             <Link href={routes.singleClassified(classified.slug)}>
               <Image
                 placeholder="blur"
-                blurDataURL={classified.images[0]?.blurHash}
+                blurDataURL={classified.images[0]?.blurhash}
                 src={classified.images[0]?.src}
                 alt={classified.images[0]?.alt}
                 className="object-cover"
@@ -163,7 +94,10 @@ export const ClassifiedCard = ({ classified, favourites }: Props) => {
 
             <div className="absolute top-2.5 right-3.5 bg-primary text-slate-50 font-bold px-2 py-1 rounded">
               <p className="text-xs lg:text-base xl:text-lg font-semibold">
-                {classified.price}
+                {formatPrice({
+                  price: classified.price,
+                  currency: classified.currency,
+                })}
               </p>
             </div>
           </div>

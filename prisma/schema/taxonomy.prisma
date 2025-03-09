@@ -4,9 +4,10 @@ model Make {
     image       String
     models      Model[]
     classifieds Classified[]
+    createdAt   DateTime     @default(now()) @map("created_at")
+    updatedAt   DateTime     @updatedAt @map("updated_at")
 
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
+    @@map("makes")
 }
 
 model Model {
@@ -16,11 +17,11 @@ model Model {
     make          Make           @relation(fields: [makeId], references: [id], onDelete: Cascade)
     modelVariants ModelVariant[]
     classifieds   Classified[]
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
+    createdAt     DateTime       @default(now()) @map("created_at")
+    updatedAt     DateTime       @updatedAt @map("updated_at")
 
     @@unique([makeId, name])
+    @@map("models")
 }
 
 model ModelVariant {
@@ -31,9 +32,8 @@ model ModelVariant {
     yearEnd     Int
     model       Model        @relation(fields: [modelId], references: [id], onDelete: Cascade)
     classifieds Classified[]
-
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @map("updated_at")
+    createdAt   DateTime     @default(now()) @map("created_at")
+    updatedAt   DateTime     @updatedAt @map("updated_at")
 
     @@unique([modelId, name])
     @@map("model_variants")

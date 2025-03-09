@@ -211,3 +211,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gray'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat;
+  background-position: right 0px center;
+}

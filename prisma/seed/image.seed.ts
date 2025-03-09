@@ -13,7 +13,7 @@ export async function seedImages(prisma: PrismaClient) {
       src: imageSources.classifiedPlaceholder,
       alt: faker.lorem.words(2),
       classified: { connect: { id: classifiedId } },
-      blurHash: createPngDataUri("nfcZBYKWiId/d3eLd4eJiClPc/iY"),
+      blurhash: createPngDataUri("nfcZBYKWiId/d3eLd4eJiClPc/iY"),
     };
 
     await prisma.image.create({
