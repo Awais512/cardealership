@@ -16,7 +16,6 @@ import { parseAsString, useQueryStates } from "nuqs";
 import { ChangeEvent, useEffect, useState } from "react";
 import { TaxonomyFilter } from "./taxonomy-filter";
 import { useRouter } from "next/navigation";
-import { env } from "@/env";
 import { RangeFilter } from "./range-filter";
 import {
   BodyType,
@@ -24,28 +23,13 @@ import {
   CurrencyCode,
   FuelType,
   OdoUnit,
-  Prisma,
   Transmission,
   ULEZCompliance,
 } from "@prisma/client";
 import { Select } from "@/components/ui/select";
+import { SidebarProps } from "@/config/types";
 
-interface Props extends AwaitedPageProps {
-  minMaxValues: Prisma.GetClassifiedAggregateType<{
-    _min: {
-      year: true;
-      price: true;
-      odoReading: true;
-    };
-    _max: {
-      year: true;
-      odoReading: true;
-      price: true;
-    };
-  }>;
-}
-
-export const Sidebar = ({ minMaxValues, searchParams }: Props) => {
+export const Sidebar = ({ minMaxValues, searchParams }: SidebarProps) => {
   const router = useRouter();
   const [filterCount, setFilterCount] = useState(0);
 
@@ -131,7 +115,7 @@ export const Sidebar = ({ minMaxValues, searchParams }: Props) => {
   };
 
   return (
-    <div className="py-4 w-[21.25rem] bg-white border-r border-muted block">
+    <div className="py-4 w-[21.25rem] bg-white border-r border-muted hidden lg:block">
       <div>
         <div className="text-lg font-semibold flex justify-between px-4">
           <span>Filters</span>
