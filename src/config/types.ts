@@ -54,3 +54,8 @@ export interface SidebarProps extends AwaitedPageProps {
     };
   }>;
 }
+
+export type PrevState = {
+  success: boolean;
+  message: string;
+};
