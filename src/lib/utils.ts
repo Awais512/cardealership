@@ -1,9 +1,13 @@
+import { ClassifiedFilterSchema } from "@/app/schemas/classified.schema";
+import { AwaitedPageProps } from "@/config/types";
 import {
   BodyType,
+  ClassifiedStatus,
   Colour,
   CurrencyCode,
   FuelType,
   OdoUnit,
+  Prisma,
   Transmission,
   ULEZCompliance,
 } from "@prisma/client";
@@ -133,3 +137,88 @@ export function formatBodyType(bodyType: BodyType) {
       return "Unknown";
   }
 }
+
+export const buildClassifiedFilterQuery = (
+  searchParams: AwaitedPageProps["searchParams"] | undefined
+): Prisma.ClassifiedWhereInput => {
+  const { data } = ClassifiedFilterSchema.safeParse(searchParams);
+  if (!data) return { status: ClassifiedStatus.LIVE };
+
+  const keys = Object.keys(data);
+
+  const taxonomyFilters = ["make", "model", "modelVariant"];
+
+  const rangeFilters = {
+    minYear: "year",
+    maxYear: "year",
+    minPrice: "price",
+    maxPrice: "price",
+    minReading: "odoReading",
+    maxReading: "odoReading",
+  };
+
+  const fieldMappings: Record<string, string> = {
+    color: "colour",
+  };
+
+  const directSelectFilters = [
+    "transmission",
+    "fuelType",
+    "bodyType",
+    "colour",
+    "odoUnit",
+    "currency",
+    "ulezCompliance",
+  ];
+
+  const numericSelectFilters = ["doors", "seats"];
+
+  const mapParamsToField = keys.reduce((acc, key) => {
+    const value = searchParams?.[key] as string | undefined;
+    if (!value) return acc;
+
+    // Handle field name mapping (e.g., color -> colour)
+    const mappedKey = fieldMappings[key] || key;
+
+    if (taxonomyFilters.includes(mappedKey)) {
+      acc[mappedKey] = { id: Number(value) };
+    } else if (key in rangeFilters) {
+      const field = rangeFilters[key as keyof typeof rangeFilters];
+      acc[field] = acc[field] || {};
+      if (key.startsWith("min")) {
+        acc[field].gte = Number(value);
+      } else if (key.startsWith("max")) {
+        acc[field].lte = Number(value);
+      }
+    } else if (directSelectFilters.includes(mappedKey)) {
+      // Direct mapping for enum-based select filters
+      acc[mappedKey] = value;
+    } else if (numericSelectFilters.includes(mappedKey)) {
+      // Convert string to number for numeric select filters
+      acc[mappedKey] = Number(value);
+    }
+
+    return acc;
+  }, {} as { [key: string]: any });
+
+  return {
+    status: ClassifiedStatus.LIVE,
+    ...(searchParams?.q && {
+      OR: [
+        {
+          title: {
+            contains: searchParams.q as string,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: searchParams.q as string,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+    ...mapParamsToField,
+  };
+};
