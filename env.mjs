@@ -33,6 +33,7 @@ export const env = createEnv({
 
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
+    NEXT_PUBLIC_IMGIX_URL: z.string().url(),
   },
 
   runtimeEnv: {
@@ -41,5 +42,6 @@ export const env = createEnv({
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL, // ✅ Now correctly included
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_IMGIX_URL: process.env.NEXT_PUBLIC_IMGIX_URL,
   },
 });
