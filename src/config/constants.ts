@@ -2,7 +2,11 @@ import { routes } from "./routes";
 
 export const imageSources = {
   classifiedPlaceholder:
-    "https://res.cloudinary.com/awais512/image/upload/v1740850790/classified-placeholder.jpg",
+    "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/classified-placeholder.jpg",
+  carLinup:
+    "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/josh-berquist-_4sWbzH5fp8-unsplash.jpg",
+  featureSection:
+    "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/roberto-nickson-zu95jkyrGtw-unsplash.jpg",
 };
 
 export const CLASSIFIED_PER_PAGE = 3;
