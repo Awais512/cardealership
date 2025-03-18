@@ -4,7 +4,7 @@ export const imageSources = {
   classifiedPlaceholder:
     "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/classified-placeholder.jpg",
   carLinup:
-    "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/josh-berquist-_4sWbzH5fp8-unsplash.jpg",
+    "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/peter-broomfield-m3m-lnR90uM-unsplash.jpg",
   featureSection:
     "https://magic-motors.s3.eu-north-1.amazonaws.com/uploads/roberto-nickson-zu95jkyrGtw-unsplash.jpg",
 };
