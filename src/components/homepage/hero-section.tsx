@@ -106,7 +106,10 @@ export const HeroSection = async (props: AwaitedPageProps) => {
         <div className="max-w-md w-full mx-auto p-6 bg-white sm:rounded-xl shadow-lg">
           <div className="space-y-4">
             <div className="space-y-2 flex flex-col w-full gap-x-4">
-              <HomepageTaxonomyFilters searchParams={searchParams} />
+              <HomepageTaxonomyFilters
+                minMaxValues={minMaxResult}
+                searchParams={searchParams}
+              />
             </div>
             <SearchButton count={classifiedsCount} />
             {isFilterApplied && (
