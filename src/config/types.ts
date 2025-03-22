@@ -59,3 +59,9 @@ export type PrevState = {
   success: boolean;
   message: string;
 };
+
+export interface MultiStepFormComponentProps extends AwaitedPageProps {
+  classified: Prisma.ClassifiedGetPayload<{
+    include: { make: true };
+  }>;
+}

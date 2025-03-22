@@ -4,7 +4,7 @@ import Link from "next/link";
 import { routes } from "@/config/routes";
 import { CarIcon, HomeIcon } from "lucide-react";
 
-const EndButton = () => {
+export const EndButton = () => {
   return (
     <div className="mt-6 flex items-center justify-center gap-4">
       <Button
@@ -25,5 +25,3 @@ const EndButton = () => {
     </div>
   );
 };
-
-export default EndButton;
