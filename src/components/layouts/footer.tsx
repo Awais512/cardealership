@@ -63,6 +63,14 @@ export const PublicFooter = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href={routes.signIn}
+              className="text-foreground hover:text-primary"
+            >
+              Admin
+            </Link>
+          </li>
         </ul>
 
         <NewsletterForm />
