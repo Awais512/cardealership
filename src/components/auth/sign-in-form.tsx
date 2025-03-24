@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useFormStatus } from "react-dom";
 import { CircleCheckIcon, CircleX, Loader2 } from "lucide-react";
+import { signInAction } from "@/app/_actions/sign-in";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
@@ -27,7 +28,7 @@ const SubmitButton = () => {
 };
 
 export const SignInForm = () => {
-  const [state, formAction] = useActionState(null, {
+  const [state, formAction] = useActionState(signInAction, {
     success: false,
     message: "",
   });
@@ -41,13 +42,13 @@ export const SignInForm = () => {
   useEffect(() => {
     if (state.success && formRef.current) {
       router.refresh();
-      router.push(routes.challenge);
+      // router.push(routes.challenge);
     }
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] bg-white">
-      <div className="max-w-md w-full pb-60">
+      <div className="max-w-md w-full pb-32">
         <form
           ref={formRef}
           action={formAction}
@@ -65,7 +66,7 @@ export const SignInForm = () => {
                 name="email"
                 autoComplete="email"
                 className="placeholder:text-gray-500"
-                placeholder="Enter your administrator email"
+                placeholder="Enter your administrator email address"
                 required
               />
             </div>
@@ -75,30 +76,31 @@ export const SignInForm = () => {
                 id="password"
                 type="password"
                 name="password"
+                autoComplete="password"
                 className="placeholder:text-gray-500"
                 placeholder="Enter your password"
                 required
               />
             </div>
+
             <div className="my-6">
               <p className="text-sm text-gray-600 mb-2 text-center">
-                <b>This is for admin only</b>
+                <b>This is for admin only.</b>
               </p>
             </div>
             <div className="space-y-4">
               <SubmitButton />
-              {state.success ? (
+              {state.success && (
                 <div className="flex items-center gap-2 rounded-md bg-green-500 p-3 text-white">
                   <CircleCheckIcon className="h-5 w-5" />
-                  <span className="text-white">Success! {state.message}</span>
+                  <span>Success! {state.message}</span>
                 </div>
-              ) : (
-                state.message && (
-                  <div className="flex items-center gap-2 rounded-md bg-rose-500 p-3 text-white">
-                    <CircleX className="h-5 w-5" />
-                    <span className="text-white">Error! {state.message}</span>
-                  </div>
-                )
+              )}
+              {!state.success && state.message && (
+                <div className="flex items-center gap-2 rounded-md bg-red-500 p-3 text-white">
+                  <CircleX className="h-5 w-5" />
+                  <span>Error! {state.message}</span>
+                </div>
               )}
             </div>
           </div>
