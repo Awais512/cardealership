@@ -7,6 +7,8 @@ import { SignInSchema } from "@/app/schemas/auth.schema";
 import { bcryptPasswordCompare } from "@/lib/bcrypt";
 import { SESSION_MAX_AGE } from "@/config/constants";
 import { routes } from "@/config/routes";
+import { issueChallenge } from "@/lib/otp";
+import { AdapterUser } from "@auth/core/adapters";
 
 export const config = {
   adapter: PrismaAdapter(prisma),
@@ -48,7 +50,14 @@ export const config = {
 
           if (!match) return null;
 
-          return { ...user, requires2FA: true };
+          await issueChallenge(user.id, user.email);
+
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            omit: { hashedPassword: true },
+          });
+
+          return { ...dbUser, requires2FA: true };
         } catch (error) {
           console.log({ error });
           return null;
@@ -81,13 +90,11 @@ export const config = {
       return token;
     },
     async session({ session, user }) {
-      const newSession = {
-        user,
-        requires2FA: session.requires2FA,
-        expires: session.expires,
-      };
-
-      return newSession;
+      session.user = {
+        id: session.userId,
+        email: user.email,
+      } as AdapterUser;
+      return session;
     },
   },
   jwt: {

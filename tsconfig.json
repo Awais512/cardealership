@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/env": ["./env.mjs"],
-      "@/auth": ["./auth.ts"]
+      "@/auth": ["./auth.ts"],
+      "@/emails/*": ["./emails/*"]
     }
   },
   "include": [

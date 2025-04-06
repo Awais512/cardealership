@@ -11,4 +11,12 @@ export const routes = {
   notAvailable: (slug: string) => `/inventory/${slug}/not-available`,
   signIn: "/auth/sign-in",
   challenge: "/auth/challenge",
+  admin: {
+    dashboard: "/admin/dashboard",
+    classifieds: "/admin/classifieds",
+    editClassified: (id: number) => `/admin/classifieds/edit/${id}`,
+    customers: "/admin/customers",
+    editCustomer: (id: number) => `/admin/customers/edit/${id}`,
+    settings: "/admin/settings",
+  },
 };

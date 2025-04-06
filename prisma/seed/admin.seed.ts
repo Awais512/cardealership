@@ -6,7 +6,7 @@ export async function seedAdmin(prisma: PrismaClient) {
 
   const admin = await prisma.user.create({
     data: {
-      email: "dev@tlr.je",
+      email: "raza.awais25@gmail.com",
       hashedPassword: password,
     },
   });

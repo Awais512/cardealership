@@ -1,7 +1,11 @@
-import React from "react";
+import { auth } from "@/auth";
+import { OTPForm } from "@/components/auth/otp-form";
 
-const ChallengePage = () => {
-  return <div>ChallengePage</div>;
+const ChallengePage = async () => {
+  const session = await auth();
+
+  console.log({ session });
+  return <OTPForm />;
 };
 
 export default ChallengePage;

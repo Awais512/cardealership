@@ -9,8 +9,11 @@ import { redis } from "@/lib/redis-store";
 import { Favourites } from "@/config/types";
 import { getSourceId } from "@/lib/source-id";
 import { navLinks } from "@/config/constants";
+import { auth } from "@/auth";
+import { SignOutForm } from "../auth/sign-out-form";
 
 export const PublicHeader = async () => {
+  const session = await auth();
   const sourceId = await getSourceId();
   const favourites = await redis.get<Favourites>(sourceId ?? "");
 
@@ -38,6 +41,16 @@ export const PublicHeader = async () => {
           </Link>
         ))}
       </nav>
+      {session ? (
+        <div className="items-center md:flex gap-x-6 hidden">
+          <Link className="text-foreground" href={routes.admin.dashboard}>
+            Backoffice
+          </Link>
+          <SignOutForm />
+        </div>
+      ) : (
+        <Button>Login</Button>
+      )}
       <Button
         asChild
         variant="ghost"

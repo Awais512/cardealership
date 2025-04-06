@@ -31,6 +31,9 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "test", "production"]),
     S3_BUCKET_ACCESS_KEY: z.string(),
     S3_BUCKET_SECRET_KEY: z.string(),
+    NEXTAUTH_SECRET: z.string(),
+    RESEND_API_KEY: z.string(),
+    FROM_EMAIL_ADDRESS: z.string(),
   },
 
   client: {
@@ -47,5 +50,8 @@ export const env = createEnv({
     NEXT_PUBLIC_IMGIX_URL: process.env.NEXT_PUBLIC_IMGIX_URL,
     S3_BUCKET_ACCESS_KEY: process.env.S3_BUCKET_ACCESS_KEY,
     S3_BUCKET_SECRET_KEY: process.env.S3_BUCKET_SECRET_KEY,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    FROM_EMAIL_ADDRESS: process.env.FROM_EMAIL_ADDRESS,
   },
 });
