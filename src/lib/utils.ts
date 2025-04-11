@@ -174,33 +174,36 @@ export const buildClassifiedFilterQuery = (
 
   const numericSelectFilters = ["doors", "seats"];
 
-  const mapParamsToField = keys.reduce((acc, key) => {
-    const value = searchParams?.[key] as string | undefined;
-    if (!value) return acc;
+  const mapParamsToField = keys.reduce(
+    (acc, key) => {
+      const value = searchParams?.[key] as string | undefined;
+      if (!value) return acc;
 
-    // Handle field name mapping (e.g., color -> colour)
-    const mappedKey = fieldMappings[key] || key;
+      // Handle field name mapping (e.g., color -> colour)
+      const mappedKey = fieldMappings[key] || key;
 
-    if (taxonomyFilters.includes(mappedKey)) {
-      acc[mappedKey] = { id: Number(value) };
-    } else if (key in rangeFilters) {
-      const field = rangeFilters[key as keyof typeof rangeFilters];
-      acc[field] = acc[field] || {};
-      if (key.startsWith("min")) {
-        acc[field].gte = Number(value);
-      } else if (key.startsWith("max")) {
-        acc[field].lte = Number(value);
+      if (taxonomyFilters.includes(mappedKey)) {
+        acc[mappedKey] = { id: Number(value) };
+      } else if (key in rangeFilters) {
+        const field = rangeFilters[key as keyof typeof rangeFilters];
+        acc[field] = acc[field] || {};
+        if (key.startsWith("min")) {
+          acc[field].gte = Number(value);
+        } else if (key.startsWith("max")) {
+          acc[field].lte = Number(value);
+        }
+      } else if (directSelectFilters.includes(mappedKey)) {
+        // Direct mapping for enum-based select filters
+        acc[mappedKey] = value;
+      } else if (numericSelectFilters.includes(mappedKey)) {
+        // Convert string to number for numeric select filters
+        acc[mappedKey] = Number(value);
       }
-    } else if (directSelectFilters.includes(mappedKey)) {
-      // Direct mapping for enum-based select filters
-      acc[mappedKey] = value;
-    } else if (numericSelectFilters.includes(mappedKey)) {
-      // Convert string to number for numeric select filters
-      acc[mappedKey] = Number(value);
-    }
 
-    return acc;
-  }, {} as { [key: string]: any });
+      return acc;
+    },
+    {} as { [key: string]: any }
+  );
 
   return {
     status: ClassifiedStatus.LIVE,
@@ -271,3 +274,9 @@ export const formatDate = (date: string, time: string) => {
 
   return parsedDate;
 };
+
+export function calculatePercentageChange(current: number, previous: number) {
+  if (previous === 0) return current > 0 ? 100 : current < 0 ? -100 : 0;
+
+  return ((current - previous) / Math.abs(previous)) * 100;
+}
