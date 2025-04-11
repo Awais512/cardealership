@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { routes } from "@/config/routes";
+import { Button } from "../ui/button";
 
 export const OTPForm = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ export const OTPForm = () => {
         toast.error(result?.message || "Something went wrong");
       } else {
         console.log({ result });
-        // router.push(routes.admin.dashboard);
+        router.push(routes.admin.dashboard);
       }
     });
   };
@@ -105,6 +106,17 @@ export const OTPForm = () => {
                 )}
                 {sendButtonText}
               </button>
+            </div>
+            <div className="mt-6 md:mt-16 flex flex-col w-full gap-4">
+              <Button
+                disabled={isSubmitPending}
+                className="w-full flex gap-x-2"
+              >
+                <span>{isSubmitPending ? "Verifying" : "Verify"}</span>
+                {isSubmitPending ? (
+                  <Loader2Icon className="w-4 h-4 shrink-0 animate-spin" />
+                ) : null}
+              </Button>
             </div>
           </form>
         </Form>
